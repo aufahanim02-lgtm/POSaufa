@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 
 // ✅ Import seeder dengan nama class yang BENAR
-use Database\Seeders\namaseedersewaalatmuhammadraihannafis;
+use Database\Seeders\namaseedercafeposraihan;
 
 class DatabaseSeeder extends Seeder
 {

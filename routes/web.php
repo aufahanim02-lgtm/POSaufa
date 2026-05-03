@@ -53,6 +53,7 @@ use App\Http\Controllers\ZonaKasir\ControllerZonaKasir;
 | ROUTE LANDING (PUBLIC / GUEST)
 |--------------------------------------------------------------------------
 */
+
 Route::get('/', [ControllerLanding::class, 'home'])->name('landing.home');
 Route::get('/menu', [ControllerLanding::class, 'menu'])->name('landing.menu');
 Route::get('/promo', [ControllerLanding::class, 'promo'])->name('landing.promo');
@@ -62,7 +63,7 @@ Route::get('/kontak', [ControllerLanding::class, 'kontak'])->name('landing.konta
 
 /*
 |--------------------------------------------------------------------------
-| ROUTE AUTH (JANGAN DIUBAH)
+| ROUTE AUTH
 |--------------------------------------------------------------------------
 */
 Route::get('/login', [ControllerAuthUser::class, 'login'])->name('auth.login');
@@ -88,7 +89,7 @@ Route::middleware(['auth', 'role:owner'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | MASTER DATA
+    | MASTER DATA (prefix: master)
     |--------------------------------------------------------------------------
     */
     Route::prefix('master')->group(function () {
@@ -126,7 +127,7 @@ Route::middleware(['auth', 'role:owner'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | INVENTORY
+    | INVENTORY (prefix: inventory)
     |--------------------------------------------------------------------------
     */
     Route::prefix('inventory')->group(function () {
@@ -141,7 +142,7 @@ Route::middleware(['auth', 'role:owner'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | TRANSAKSI (POS + SHIFT)
+    | TRANSAKSI / KASIR (prefix: kasir)
     |--------------------------------------------------------------------------
     */
     Route::prefix('kasir')->group(function () {
@@ -158,7 +159,8 @@ Route::middleware(['auth', 'role:owner'])->group(function () {
         Route::get('/sukses/{id}', [ControllerPenjualan::class, 'sukses'])->name('kasir.sukses');
         Route::get('/struk/{id}', [ControllerPenjualan::class, 'struk'])->name('kasir.struk');
 
-        Route::get('/shift', [ControllerShift::class, 'index'])->name('owner.shift.index');
+        // SHIFT (owner hanya lihat monitoring shift)
+        Route::get('/shift', [ControllerShift::class, 'index'])->name('shift.index');
     });
 
 
@@ -203,18 +205,31 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
 
     Route::prefix('kasir')->group(function () {
 
+        // POS
         Route::get('/pos', [ControllerPenjualan::class, 'index'])->name('kasir.pos');
-
         Route::post('/pos/tambah', [ControllerPenjualan::class, 'tambah'])->name('kasir.pos.tambah');
         Route::post('/pos/hapus', [ControllerPenjualan::class, 'hapus'])->name('kasir.pos.hapus');
         Route::post('/pos/reset', [ControllerPenjualan::class, 'reset'])->name('kasir.pos.reset');
 
+        // PEMBAYARAN
         Route::get('/pembayaran', [ControllerPenjualan::class, 'pembayaran'])->name('kasir.pembayaran');
         Route::post('/pembayaran/proses', [ControllerPenjualan::class, 'proses'])->name('kasir.pembayaran.proses');
 
         Route::get('/sukses/{id}', [ControllerPenjualan::class, 'sukses'])->name('kasir.sukses');
         Route::get('/struk/{id}', [ControllerPenjualan::class, 'struk'])->name('kasir.struk');
 
+        // SHIFT
         Route::get('/shift', [ControllerShift::class, 'index'])->name('shift.index');
+
+        Route::get('/bukashift', [ControllerShift::class, 'bukaShift'])->name('shift.buka');
+        Route::post('/bukashift', [ControllerShift::class, 'prosesBukaShift'])->name('shift.buka.proses');
+
+        Route::get('/tutupshift', [ControllerShift::class, 'tutupShift'])->name('shift.tutup');
+        Route::post('/tutupshift', [ControllerShift::class, 'prosesTutupShift'])->name('shift.tutup.proses');
+
+        // RIWAYAT
+        Route::get('/riwayat', function () {
+            return view('kasir.riwayat.index');
+        })->name('kasir.riwayat');
     });
 });

@@ -12,12 +12,12 @@ class namaseedercafeposraihan extends Seeder
     {
         /*
         |--------------------------------------------------------------------------
-        | USER SEED
+        | USER (OWNER, MANAGER, KASIR)
         |--------------------------------------------------------------------------
         */
         DB::table('user')->insert([
             [
-                'name' => 'Owner CAFEPOS',
+                'name' => 'Owner Cafe',
                 'username' => 'owner',
                 'email' => 'owner@cafepos.com',
                 'password' => Hash::make('123456'),
@@ -28,7 +28,7 @@ class namaseedercafeposraihan extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'Manager CAFEPOS',
+                'name' => 'Manager Cafe',
                 'username' => 'manager',
                 'email' => 'manager@cafepos.com',
                 'password' => Hash::make('123456'),
@@ -39,7 +39,7 @@ class namaseedercafeposraihan extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'Kasir CAFEPOS',
+                'name' => 'Kasir Cafe',
                 'username' => 'kasir',
                 'email' => 'kasir@cafepos.com',
                 'password' => Hash::make('123456'),
@@ -53,25 +53,25 @@ class namaseedercafeposraihan extends Seeder
 
         /*
         |--------------------------------------------------------------------------
-        | KATEGORI SEED
+        | KATEGORI
         |--------------------------------------------------------------------------
         */
         DB::table('kategori')->insert([
             [
                 'namakategori' => 'Minuman',
-                'deskripsi' => 'Kategori minuman cafe',
+                'deskripsi' => 'Kategori minuman dingin dan panas',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'namakategori' => 'Makanan',
-                'deskripsi' => 'Kategori makanan cafe',
+                'deskripsi' => 'Kategori makanan berat dan ringan',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'namakategori' => 'Snack',
-                'deskripsi' => 'Kategori snack cafe',
+                'deskripsi' => 'Kategori cemilan',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -79,39 +79,50 @@ class namaseedercafeposraihan extends Seeder
 
         /*
         |--------------------------------------------------------------------------
-        | PRODUK SEED
+        | PRODUK
         |--------------------------------------------------------------------------
         */
         DB::table('produk')->insert([
             [
                 'kategoriid' => 1,
                 'kodeproduk' => 'PRD001',
-                'namaproduk' => 'Kopi Susu Gula Aren',
-                'hargajual' => 18000,
-                'satuan' => 'gelas',
-                'foto' => 'produk1.jpg',
-                'status' => 'aktif',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'kategoriid' => 2,
-                'kodeproduk' => 'PRD002',
-                'namaproduk' => 'Nasi Goreng Spesial',
-                'hargajual' => 25000,
-                'satuan' => 'porsi',
-                'foto' => 'produk2.jpg',
+                'namaproduk' => 'Es Teh Manis',
+                'hargajual' => 5000,
+                'satuan' => 'Gelas',
+                'foto' => null,
                 'status' => 'aktif',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'kategoriid' => 1,
+                'kodeproduk' => 'PRD002',
+                'namaproduk' => 'Kopi Hitam',
+                'hargajual' => 8000,
+                'satuan' => 'Cangkir',
+                'foto' => null,
+                'status' => 'aktif',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'kategoriid' => 2,
                 'kodeproduk' => 'PRD003',
-                'namaproduk' => 'Es Teh Lemon',
+                'namaproduk' => 'Nasi Goreng',
+                'hargajual' => 15000,
+                'satuan' => 'Porsi',
+                'foto' => null,
+                'status' => 'aktif',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'kategoriid' => 3,
+                'kodeproduk' => 'PRD004',
+                'namaproduk' => 'Kentang Goreng',
                 'hargajual' => 12000,
-                'satuan' => 'gelas',
-                'foto' => 'produk3.jpg',
+                'satuan' => 'Porsi',
+                'foto' => null,
                 'status' => 'aktif',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -120,26 +131,26 @@ class namaseedercafeposraihan extends Seeder
 
         /*
         |--------------------------------------------------------------------------
-        | MEJA SEED
+        | MEJA
         |--------------------------------------------------------------------------
         */
         DB::table('meja')->insert([
             [
-                'nomormeja' => 'Meja 01',
+                'nomormeja' => 'M01',
                 'kapasitas' => 4,
                 'status' => 'kosong',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nomormeja' => 'Meja 02',
+                'nomormeja' => 'M02',
                 'kapasitas' => 2,
                 'status' => 'kosong',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nomormeja' => 'Meja 03',
+                'nomormeja' => 'M03',
                 'kapasitas' => 6,
                 'status' => 'kosong',
                 'created_at' => now(),
@@ -149,27 +160,12 @@ class namaseedercafeposraihan extends Seeder
 
         /*
         |--------------------------------------------------------------------------
-        | SUPPLIER SEED
-        |--------------------------------------------------------------------------
-        */
-        DB::table('supplier')->insert([
-            [
-                'namasupplier' => 'Supplier Kopi Nusantara',
-                'nohp' => '081234567890',
-                'alamat' => 'Medan, Indonesia',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
-
-        /*
-        |--------------------------------------------------------------------------
-        | METODE PEMBAYARAN SEED
+        | METODE PEMBAYARAN
         |--------------------------------------------------------------------------
         */
         DB::table('metodepembayaran')->insert([
             [
-                'namametode' => 'Cash',
+                'namametode' => 'Tunai',
                 'jenis' => 'cash',
                 'status' => 'aktif',
                 'created_at' => now(),
@@ -183,14 +179,7 @@ class namaseedercafeposraihan extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'namametode' => 'Dana',
-                'jenis' => 'noncash',
-                'status' => 'aktif',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'namametode' => 'Ovo',
+                'namametode' => 'Debit BCA',
                 'jenis' => 'noncash',
                 'status' => 'aktif',
                 'created_at' => now(),
@@ -200,13 +189,13 @@ class namaseedercafeposraihan extends Seeder
 
         /*
         |--------------------------------------------------------------------------
-        | PAJAK SEED
+        | PAJAK
         |--------------------------------------------------------------------------
         */
         DB::table('pajak')->insert([
             [
-                'namapajak' => 'PB1',
-                'persen' => 10,
+                'namapajak' => 'PPN 11%',
+                'persen' => 11,
                 'status' => 'aktif',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -215,17 +204,28 @@ class namaseedercafeposraihan extends Seeder
 
         /*
         |--------------------------------------------------------------------------
-        | PROMO SEED
+        | PROMO
         |--------------------------------------------------------------------------
         */
         DB::table('promo')->insert([
             [
-                'namapromo' => 'Diskon Kopi 20%',
+                'namapromo' => 'Diskon 10%',
                 'jenis' => 'persen',
-                'nilaidiskon' => 20,
-                'minimalbelanja' => 0,
-                'tanggalmulai' => now()->format('Y-m-d'),
-                'tanggalselesai' => now()->addDays(30)->format('Y-m-d'),
+                'nilaidiskon' => 10,
+                'minimalbelanja' => 20000,
+                'tanggalmulai' => now()->toDateString(),
+                'tanggalselesai' => now()->addDays(30)->toDateString(),
+                'status' => 'aktif',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'namapromo' => 'Potongan 5000',
+                'jenis' => 'fixed',
+                'nilaidiskon' => 5000,
+                'minimalbelanja' => 30000,
+                'tanggalmulai' => now()->toDateString(),
+                'tanggalselesai' => now()->addDays(15)->toDateString(),
                 'status' => 'aktif',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -234,34 +234,56 @@ class namaseedercafeposraihan extends Seeder
 
         /*
         |--------------------------------------------------------------------------
-        | BAHAN BAKU SEED
+        | SUPPLIER
+        |--------------------------------------------------------------------------
+        */
+        DB::table('supplier')->insert([
+            [
+                'namasupplier' => 'Supplier Utama',
+                'nohp' => '081234567890',
+                'alamat' => 'Jl. Supplier No.1',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'namasupplier' => 'Supplier Cadangan',
+                'nohp' => '082345678901',
+                'alamat' => 'Jl. Supplier No.2',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | BAHAN BAKU
         |--------------------------------------------------------------------------
         */
         DB::table('bahanbaku')->insert([
             [
                 'kodebahan' => 'BB001',
-                'namabahan' => 'Biji Kopi',
+                'namabahan' => 'Gula',
                 'stok' => 50,
-                'satuan' => 'kg',
-                'hargabeli' => 90000,
+                'satuan' => 'Kg',
+                'hargabeli' => 12000,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'kodebahan' => 'BB002',
-                'namabahan' => 'Gula Aren',
-                'stok' => 30,
-                'satuan' => 'kg',
-                'hargabeli' => 50000,
+                'namabahan' => 'Kopi Bubuk',
+                'stok' => 20,
+                'satuan' => 'Kg',
+                'hargabeli' => 80000,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'kodebahan' => 'BB003',
-                'namabahan' => 'Susu Fresh',
-                'stok' => 20,
-                'satuan' => 'liter',
-                'hargabeli' => 25000,
+                'namabahan' => 'Beras',
+                'stok' => 30,
+                'satuan' => 'Kg',
+                'hargabeli' => 15000,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -269,7 +291,7 @@ class namaseedercafeposraihan extends Seeder
 
         /*
         |--------------------------------------------------------------------------
-        | STOK SEED
+        | STOK
         |--------------------------------------------------------------------------
         */
         DB::table('stok')->insert([
@@ -283,7 +305,7 @@ class namaseedercafeposraihan extends Seeder
             ],
             [
                 'bahanbakuid' => 2,
-                'stoktersedia' => 30,
+                'stoktersedia' => 20,
                 'stokminimal' => 5,
                 'status' => 'aman',
                 'created_at' => now(),
@@ -291,8 +313,8 @@ class namaseedercafeposraihan extends Seeder
             ],
             [
                 'bahanbakuid' => 3,
-                'stoktersedia' => 20,
-                'stokminimal' => 5,
+                'stoktersedia' => 30,
+                'stokminimal' => 10,
                 'status' => 'aman',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -301,56 +323,28 @@ class namaseedercafeposraihan extends Seeder
 
         /*
         |--------------------------------------------------------------------------
-        | LANDING SEED
+        | LANDING HOME
         |--------------------------------------------------------------------------
         */
         DB::table('home')->insert([
             [
-                'title' => 'Selamat Datang di CAFEPOS',
-                'content' => 'CAFEPOS adalah aplikasi kasir modern untuk cafe dan restoran.',
+                'title' => 'CAFEPOS - Aplikasi Kasir Cafe Modern',
+                'content' => 'Kelola transaksi, stok bahan baku, laporan penjualan, dan shift kasir dengan cepat dan profesional.',
                 'statusaktif' => 'aktif',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
         ]);
 
+        /*
+        |--------------------------------------------------------------------------
+        | TENTANG
+        |--------------------------------------------------------------------------
+        */
         DB::table('tentang')->insert([
             [
                 'title' => 'Tentang CAFEPOS',
-                'content' => 'CAFEPOS adalah sistem POS yang mendukung transaksi, inventory, shift, dan laporan.',
-                'statusaktif' => 'aktif',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
-
-        DB::table('menu')->insert([
-            [
-                'produkid' => 1,
-                'kategoriid' => 1,
-                'statusaktif' => 'aktif',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'produkid' => 2,
-                'kategoriid' => 2,
-                'statusaktif' => 'aktif',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'produkid' => 3,
-                'kategoriid' => 1,
-                'statusaktif' => 'aktif',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
-
-        DB::table('promolanding')->insert([
-            [
-                'promoid' => 1,
+                'content' => 'CAFEPOS adalah aplikasi kasir cafe yang dibuat untuk membantu bisnis cafe dan restoran modern.',
                 'statusaktif' => 'aktif',
                 'created_at' => now(),
                 'updated_at' => now(),

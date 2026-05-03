@@ -35,7 +35,7 @@ return new class extends Migration
             $table->unsignedBigInteger('userid')->nullable();
             $table->string('ipaddress')->nullable();
             $table->text('useragent')->nullable();
-            $table->dateTime('loginat')->nullable();
+            $table->dateTime('loginat'); // wajib
             $table->dateTime('logoutat')->nullable();
             $table->enum('status', ['success', 'failed'])->default('success');
             $table->timestamps();
@@ -168,7 +168,7 @@ return new class extends Migration
             $table->unsignedBigInteger('bahanbakuid');
             $table->decimal('stoktersedia', 15, 2)->default(0);
             $table->decimal('stokminimal', 15, 2)->default(0);
-            $table->enum('status', ['aman', 'habis'])->default('aman');
+            $table->enum('status', ['aman', 'menipis', 'habis'])->default('aman');
             $table->timestamps();
 
             $table->foreign('bahanbakuid')->references('id')->on('bahanbaku')->onDelete('cascade');
@@ -213,6 +213,7 @@ return new class extends Migration
         */
         Schema::create('pembelian', function (Blueprint $table) {
             $table->id();
+            $table->string('kodepembelian')->unique(); // tambahan
             $table->unsignedBigInteger('supplierid');
             $table->unsignedBigInteger('userid');
             $table->decimal('total', 15, 2)->default(0);
@@ -296,6 +297,7 @@ return new class extends Migration
             $table->unsignedBigInteger('metodepembayaranid');
             $table->decimal('jumlahbayar', 15, 2)->default(0);
             $table->decimal('kembalian', 15, 2)->default(0);
+            $table->dateTime('tanggalbayar')->nullable(); // tambahan
             $table->string('buktibayar')->nullable();
             $table->enum('status', ['paid', 'unpaid'])->default('unpaid');
             $table->timestamps();
@@ -330,17 +332,18 @@ return new class extends Migration
             $table->dateTime('shiftmulai')->nullable();
             $table->dateTime('shiftselesai')->nullable();
             $table->decimal('saldoawal', 15, 2)->default(0);
-            $table->decimal('saldoakhir', 15, 2)->nullable();
+            $table->decimal('saldoakhir', 15, 2)->nullable(); // FIX
             $table->integer('totaltransaksi')->default(0);
-            $table->enum('status', ['open', 'closed'])->default('open');
+            $table->enum('status', ['open', 'closed'])->default('closed');
             $table->timestamps();
 
             $table->foreign('userid')->references('id')->on('user')->onDelete('cascade');
+            $table->index(['userid', 'status']);
         });
 
         /*
         |--------------------------------------------------------------------------
-        | LAPORAN
+        | LAPORAN (MASTER LAPORAN)
         |--------------------------------------------------------------------------
         */
         Schema::create('laporan', function (Blueprint $table) {
@@ -350,7 +353,6 @@ return new class extends Migration
             $table->date('periodeawal')->nullable();
             $table->date('periodeakhir')->nullable();
             $table->integer('totaldata')->default(0);
-            $table->dateTime('createdat')->nullable();
             $table->timestamps();
 
             $table->foreign('userid')->references('id')->on('user')->onDelete('cascade');

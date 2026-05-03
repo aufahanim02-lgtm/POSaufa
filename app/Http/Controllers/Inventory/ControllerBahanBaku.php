@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 use App\Models\ModelBahanBaku;
 
 class ControllerBahanBaku extends Controller
@@ -25,26 +24,14 @@ class ControllerBahanBaku extends Controller
         $request->validate([
             'kodebahan' => 'required|unique:bahanbaku,kodebahan',
             'namabahan' => 'required',
-            'stok' => 'required',
+            'stok' => 'required|numeric',
             'satuan' => 'nullable',
-            'hargabeli' => 'required',
+            'hargabeli' => 'required|numeric'
         ]);
 
-        ModelBahanBaku::create([
-            'kodebahan' => $request->kodebahan,
-            'namabahan' => $request->namabahan,
-            'stok' => $request->stok,
-            'satuan' => $request->satuan,
-            'hargabeli' => $request->hargabeli,
-        ]);
+        ModelBahanBaku::create($request->all());
 
         return redirect()->route('bahanbaku.index')->with('success', 'Bahan baku berhasil ditambahkan!');
-    }
-
-    public function show($id)
-    {
-        $data = ModelBahanBaku::findOrFail($id);
-        return view('admin.inventory.bahanbaku.show', compact('data'));
     }
 
     public function edit($id)
@@ -60,20 +47,20 @@ class ControllerBahanBaku extends Controller
         $request->validate([
             'kodebahan' => 'required|unique:bahanbaku,kodebahan,' . $data->id,
             'namabahan' => 'required',
-            'stok' => 'required',
+            'stok' => 'required|numeric',
             'satuan' => 'nullable',
-            'hargabeli' => 'required',
+            'hargabeli' => 'required|numeric'
         ]);
 
-        $data->update([
-            'kodebahan' => $request->kodebahan,
-            'namabahan' => $request->namabahan,
-            'stok' => $request->stok,
-            'satuan' => $request->satuan,
-            'hargabeli' => $request->hargabeli,
-        ]);
+        $data->update($request->all());
 
         return redirect()->route('bahanbaku.index')->with('success', 'Bahan baku berhasil diupdate!');
+    }
+
+    public function show($id)
+    {
+        $data = ModelBahanBaku::findOrFail($id);
+        return view('admin.inventory.bahanbaku.show', compact('data'));
     }
 
     public function delete($id)
