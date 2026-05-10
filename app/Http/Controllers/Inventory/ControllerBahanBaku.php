@@ -22,8 +22,9 @@ class ControllerBahanBaku extends Controller
 
     public function index()
     {
-        $data = ModelBahanBaku::orderBy('id', 'desc')->get();
-        return view($this->viewPath('index'), compact('data'));
+        $bahanbaku = ModelBahanBaku::orderBy('id', 'desc')->get();
+
+        return view($this->viewPath('index'), compact('bahanbaku'));
     }
 
     public function create()
@@ -51,11 +52,11 @@ class ControllerBahanBaku extends Controller
 
         return redirect()->route('bahanbaku.index')->with('success', 'Bahan baku berhasil ditambahkan!');
     }
-
     public function edit($id)
     {
-        $data = ModelBahanBaku::findOrFail($id);
-        return view($this->viewPath('edit'), compact('data'));
+        $bahanbaku = ModelBahanBaku::findOrFail($id);
+
+        return view($this->viewPath('edit'), compact('bahanbaku'));
     }
 
     public function update(Request $request, $id)
@@ -82,8 +83,9 @@ class ControllerBahanBaku extends Controller
 
     public function show($id)
     {
-        $data = ModelBahanBaku::findOrFail($id);
-        return view($this->viewPath('show'), compact('data'));
+        $bahanbaku = ModelBahanBaku::findOrFail($id);
+
+        return view($this->viewPath('show'), compact('bahanbaku'));
     }
 
     public function delete($id)

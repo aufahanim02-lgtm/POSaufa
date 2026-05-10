@@ -34,7 +34,7 @@
             <!-- Card Menu -->
             <div class="col-md-4" data-aos="zoom-in">
                 <div class="glass-card">
-                    <img src="{{ asset('foto/produk/produk1.jpg') }}" class="img-fluid rounded-4 mb-3" alt="Menu">
+                    <img src="{{ asset('foto/produk/copi susu.jpeg') }}" class="img-fluid rounded-4 mb-3" alt=" copi susu">
                     <h5 class="fw-bold">Kopi Susu Gula Aren</h5>
                     <p class="text-white-50 mb-2">
                         Kopi robusta premium dengan susu segar dan gula aren asli.
