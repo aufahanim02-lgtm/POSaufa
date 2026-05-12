@@ -9,6 +9,7 @@ class ModelPromo extends Model
     protected $table = 'promo';
 
     protected $fillable = [
+        'kodepromo',
         'namapromo',
         'jenis',
         'nilaidiskon',

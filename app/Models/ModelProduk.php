@@ -8,6 +8,9 @@ class ModelProduk extends Model
 {
     protected $table = 'produk';
 
+    // kalau tabel produk kamu tidak ada kolom created_at & updated_at
+    public $timestamps = false;
+
     protected $fillable = [
         'kategoriid',
         'kodeproduk',
@@ -15,7 +18,7 @@ class ModelProduk extends Model
         'hargajual',
         'satuan',
         'foto',
-        'status'
+        'status',
     ];
 
     /*

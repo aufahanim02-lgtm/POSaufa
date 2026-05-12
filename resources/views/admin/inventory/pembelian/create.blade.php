@@ -3,22 +3,18 @@
 @section('title', 'Tambah Pembelian')
 
 @section('content')
-<div class="container-fluid px-4 mt-4">
+<div class="container-fluid mt-3">
 
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <div>
-            <h4 class="mb-0">Tambah Pembelian</h4>
-            <small class="text-muted">Input transaksi pembelian bahan baku</small>
-        </div>
+        <h4>Tambah Pembelian</h4>
 
         <a href="{{ route('inventory.pembelian.index') }}" class="btn btn-secondary btn-sm">
-            <i class="fas fa-arrow-left"></i> Kembali
+            Kembali
         </a>
     </div>
 
     @if($errors->any())
         <div class="alert alert-danger">
-            <b>Terjadi kesalahan:</b>
             <ul class="mb-0">
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -30,32 +26,29 @@
     <form action="{{ route('inventory.pembelian.store') }}" method="POST">
         @csrf
 
-        <div class="card shadow-sm mb-3">
+        {{-- HEADER --}}
+        <div class="card mb-3">
             <div class="card-header">
-                <b>Data Pembelian</b>
+                Data Pembelian
             </div>
+
             <div class="card-body">
 
                 <div class="row">
 
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">Kode Pembelian</label>
-                        <input type="text" name="kodepembelian" class="form-control"
-                               value="{{ old('kodepembelian') }}"
-                               placeholder="PB-001" required>
+                    <div class="col-md-6 mb-3">
+                        <label>Supplier</label>
+                        <select name="supplierid" class="form-control" required>
+                            <option value="">-- Pilih Supplier --</option>
+                            @foreach($supplier as $s)
+                                <option value="{{ $s->id }}">{{ $s->namasupplier }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">Supplier ID</label>
-                        <input type="number" name="supplierid" class="form-control"
-                               value="{{ old('supplierid') }}"
-                               placeholder="Masukkan supplierid" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">Tanggal Pembelian</label>
-                        <input type="date" name="tanggalpembelian" class="form-control"
-                               value="{{ old('tanggalpembelian') }}" required>
+                    <div class="col-md-6 mb-3">
+                        <label>Tanggal Pembelian</label>
+                        <input type="date" name="tanggalpembelian" class="form-control" required>
                     </div>
 
                 </div>
@@ -63,83 +56,105 @@
             </div>
         </div>
 
-        <div class="card shadow-sm">
-            <div class="card-header d-flex justify-content-between align-items-center">
+        {{-- DETAIL --}}
+        <div class="card mb-3">
+
+            <div class="card-header d-flex justify-content-between">
                 <b>Detail Pembelian</b>
+
                 <button type="button" class="btn btn-success btn-sm" onclick="tambahBaris()">
-                    <i class="fas fa-plus"></i> Tambah Item
+                    + Tambah
                 </button>
             </div>
 
+            <div class="card-body table-responsive">
+
+                <table class="table table-bordered" id="tableDetail">
+
+                    <thead>
+                        <tr>
+                            <th>Bahan Baku</th>
+                            <th>Qty</th>
+                            <th>Harga</th>
+                            <th>Subtotal</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>
+                                <select name="bahanbakuid[]" class="form-control" required>
+                                    <option value="">-- Pilih --</option>
+                                    @foreach($bahanbaku as $b)
+                                        <option value="{{ $b->id }}">{{ $b->namabahan }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+
+                            <td>
+                                <input type="number" name="qty[]" class="form-control qty" required>
+                            </td>
+
+                            <td>
+                                <input type="number" name="harga[]" class="form-control harga" required>
+                            </td>
+
+                            <td>
+                                <input type="number" name="subtotal[]" class="form-control subtotal" readonly>
+                            </td>
+
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="hapusBaris(this)">
+                                    Hapus
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        {{-- TOTAL --}}
+        <div class="card mb-3">
             <div class="card-body">
 
-                <div class="table-responsive">
-                    <table class="table table-bordered align-middle" id="tableDetail">
-                        <thead class="table-dark">
-                            <tr>
-                                <th width="20%">Bahan Baku ID</th>
-                                <th width="15%">Qty</th>
-                                <th width="20%">Harga</th>
-                                <th width="20%">Subtotal</th>
-                                <th width="10%">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <input type="number" name="bahanbakuid[]" class="form-control" required>
-                                </td>
-                                <td>
-                                    <input type="number" name="qty[]" class="form-control qty" required>
-                                </td>
-                                <td>
-                                    <input type="number" name="harga[]" class="form-control harga" required>
-                                </td>
-                                <td>
-                                    <input type="number" name="subtotal[]" class="form-control subtotal" readonly>
-                                </td>
-                                <td class="text-center">
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="hapusBaris(this)">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <hr>
-
-                <div class="row">
-                    <div class="col-md-4 offset-md-8">
-                        <label class="form-label"><b>Total</b></label>
+                <div class="row justify-content-end">
+                    <div class="col-md-4">
+                        <label>Total</label>
                         <input type="number" name="total" id="total" class="form-control" readonly>
                     </div>
                 </div>
 
             </div>
-
-            <div class="card-footer text-end">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i> Simpan Pembelian
-                </button>
-            </div>
         </div>
+
+        <button class="btn btn-primary">
+            Simpan Pembelian
+        </button>
 
     </form>
 
 </div>
 
+{{-- SCRIPT --}}
 <script>
-function hitungSubtotal() {
+
+function hitung() {
     let total = 0;
 
-    document.querySelectorAll("#tableDetail tbody tr").forEach(function(row) {
+    document.querySelectorAll("#tableDetail tbody tr").forEach(row => {
+
         let qty = row.querySelector(".qty").value || 0;
         let harga = row.querySelector(".harga").value || 0;
+
         let subtotal = qty * harga;
 
         row.querySelector(".subtotal").value = subtotal;
+
         total += subtotal;
     });
 
@@ -148,22 +163,35 @@ function hitungSubtotal() {
 
 document.addEventListener("input", function(e) {
     if (e.target.classList.contains("qty") || e.target.classList.contains("harga")) {
-        hitungSubtotal();
+        hitung();
     }
 });
 
 function tambahBaris() {
+
     let table = document.querySelector("#tableDetail tbody");
+
     let row = document.createElement("tr");
 
     row.innerHTML = `
-        <td><input type="number" name="bahanbakuid[]" class="form-control" required></td>
+        <td>
+            <select name="bahanbakuid[]" class="form-control" required>
+                <option value="">-- Pilih --</option>
+                @foreach($bahanbaku as $b)
+                    <option value="{{ $b->id }}">{{ $b->namabahan }}</option>
+                @endforeach
+            </select>
+        </td>
+
         <td><input type="number" name="qty[]" class="form-control qty" required></td>
+
         <td><input type="number" name="harga[]" class="form-control harga" required></td>
+
         <td><input type="number" name="subtotal[]" class="form-control subtotal" readonly></td>
-        <td class="text-center">
+
+        <td>
             <button type="button" class="btn btn-danger btn-sm" onclick="hapusBaris(this)">
-                <i class="fas fa-trash"></i>
+                Hapus
             </button>
         </td>
     `;
@@ -173,9 +201,9 @@ function tambahBaris() {
 
 function hapusBaris(btn) {
     btn.closest("tr").remove();
-    hitungSubtotal();
+    hitung();
 }
 
-hitungSubtotal();
 </script>
+
 @endsection

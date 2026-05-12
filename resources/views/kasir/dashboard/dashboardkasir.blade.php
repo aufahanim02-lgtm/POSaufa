@@ -153,7 +153,7 @@
 
                         <div class="card-body text-center">
 
-                            <img src="{{ asset('dist/img/user2-160x160.jpg') }}"
+                            <img src="{{ asset('dist/img/aufa.jpeg') }}"
                                  class="img-circle elevation-2 mb-3"
                                  style="width: 85px; height: 85px;"
                                  alt="User Image">

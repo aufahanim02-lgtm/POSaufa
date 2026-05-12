@@ -28,10 +28,7 @@ class ControllerPembelian extends Controller
     {
         $data = ModelPembelian::latest()->get();
 
-        return view(
-            $this->viewPath('index'),
-            compact('data')
-        );
+        return view($this->viewPath('index'), compact('data'));
     }
 
     public function create()
@@ -39,10 +36,7 @@ class ControllerPembelian extends Controller
         $supplier = ModelSupplier::all();
         $bahanbaku = ModelBahanBaku::all();
 
-        return view(
-            $this->viewPath('create'),
-            compact('supplier', 'bahanbaku')
-        );
+        return view($this->viewPath('create'), compact('supplier', 'bahanbaku'));
     }
 
     public function store(Request $request)
@@ -50,14 +44,32 @@ class ControllerPembelian extends Controller
         $request->validate([
             'supplierid' => 'required',
             'tanggalpembelian' => 'required',
-            'total' => 'required|numeric'
+            'total' => 'required|numeric',
+
+            'bahanbakuid' => 'required|array',
+            'qty' => 'required|array',
+            'harga' => 'required|array',
+            'subtotal' => 'required|array',
         ]);
 
+        // 🔥 SIMPAN HEADER
         $pembelian = ModelPembelian::create([
             'supplierid' => $request->supplierid,
+            'userid' => Auth::id(),
             'tanggalpembelian' => $request->tanggalpembelian,
             'total' => $request->total,
         ]);
+
+        // 🔥 SIMPAN DETAIL
+        foreach ($request->bahanbakuid as $i => $bahanid) {
+            ModelDetailPembelian::create([
+                'pembelianid' => $pembelian->id,
+                'bahanbakuid' => $bahanid,
+                'qty' => $request->qty[$i],
+                'harga' => $request->harga[$i],
+                'subtotal' => $request->subtotal[$i],
+            ]);
+        }
 
         return redirect()
             ->route('inventory.pembelian.index')
@@ -68,27 +80,17 @@ class ControllerPembelian extends Controller
     {
         $pembelian = ModelPembelian::findOrFail($id);
 
-        $detail = ModelDetailPembelian::where(
-            'pembelianid',
-            $id
-        )->get();
+        $detail = ModelDetailPembelian::where('pembelianid', $id)->get();
 
-        return view(
-            $this->viewPath('show'),
-            compact('pembelian', 'detail')
-        );
+        return view($this->viewPath('show'), compact('pembelian', 'detail'));
     }
 
     public function edit($id)
     {
         $pembelian = ModelPembelian::findOrFail($id);
-
         $supplier = ModelSupplier::all();
 
-        return view(
-            $this->viewPath('edit'),
-            compact('pembelian', 'supplier')
-        );
+        return view($this->viewPath('edit'), compact('pembelian', 'supplier'));
     }
 
     public function update(Request $request, $id)
@@ -96,7 +98,7 @@ class ControllerPembelian extends Controller
         $request->validate([
             'supplierid' => 'required',
             'tanggalpembelian' => 'required',
-            'total' => 'required|numeric'
+            'total' => 'required|numeric',
         ]);
 
         $pembelian = ModelPembelian::findOrFail($id);
@@ -115,6 +117,9 @@ class ControllerPembelian extends Controller
     public function destroy($id)
     {
         $pembelian = ModelPembelian::findOrFail($id);
+
+        // optional: hapus detail juga
+        ModelDetailPembelian::where('pembelianid', $id)->delete();
 
         $pembelian->delete();
 

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 use App\Models\ModelMeja;
 
 class ControllerMeja extends Controller
@@ -33,7 +32,15 @@ class ControllerMeja extends Controller
             'status' => 'kosong',
         ]);
 
-        return redirect('/admin/meja')->with('success', 'Meja berhasil ditambahkan!');
+        return redirect()->route('master.meja.index')
+            ->with('success', 'Meja berhasil ditambahkan!');
+    }
+
+    // ✅ DETAIL
+    public function show($id)
+    {
+        $data = ModelMeja::findOrFail($id);
+        return view('admin.meja.show', compact('data'));
     }
 
     public function edit($id)
@@ -47,7 +54,7 @@ class ControllerMeja extends Controller
         $data = ModelMeja::findOrFail($id);
 
         $request->validate([
-            'nomormeja' => 'required|unique:meja,nomormeja,' . $data->id,
+            'nomormeja' => 'required|unique:meja,nomormeja,' . $id,
             'kapasitas' => 'required|numeric',
             'status' => 'required',
         ]);
@@ -58,14 +65,17 @@ class ControllerMeja extends Controller
             'status' => $request->status,
         ]);
 
-        return redirect('/admin/meja')->with('success', 'Meja berhasil diupdate!');
+        return redirect()->route('master.meja.index')
+            ->with('success', 'Meja berhasil diupdate!');
     }
 
-    public function delete($id)
+    // ✅ DELETE FIX PENTING
+    public function destroy($id)
     {
         $data = ModelMeja::findOrFail($id);
         $data->delete();
 
-        return redirect('/admin/meja')->with('success', 'Meja berhasil dihapus!');
+        return redirect()->route('master.meja.index')
+            ->with('success', 'Meja berhasil dihapus!');
     }
 }

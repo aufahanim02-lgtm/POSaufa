@@ -3,8 +3,44 @@
 @section('title', 'Tentang')
 
 @section('content')
+
+<style>
+body {
+    background: #f8fafc !important; /* putih kebiruan clean */
+}
+
+section {
+    background: transparent !important;
+}
+
+/* TEXT FIX UNTUK BACKGROUND PUTIH */
+.section-title {
+    color: #0f172a !important;
+    font-weight: 800;
+}
+
+.text-white-50 {
+    color: #64748b !important;
+}
+
+/* CARD STYLE BIAR MATCH BACKGROUND PUTIH */
+.glass-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+/* ICON COLOR */
+.text-warning {
+    color: #f59e0b !important;
+}
+</style>
+
 <section class="py-5" style="margin-top:90px;">
     <div class="container">
+
         <div class="text-center mb-5" data-aos="fade-up">
             <h2 class="section-title">Tentang CAFEPOS</h2>
             <p class="text-white-50">
@@ -68,6 +104,8 @@
                 </div>
             </div>
         </div>
+
     </div>
 </section>
+
 @endsection

@@ -7,6 +7,7 @@
 <div class="container-fluid">
 
     <div class="card">
+
         <div class="card-header">
             <h4>Edit Pajak</h4>
         </div>
@@ -19,48 +20,40 @@
                 @csrf
                 @method('PUT')
 
+                {{-- NAMA PAJAK --}}
                 <div class="mb-3">
                     <label>Nama Pajak</label>
-
                     <input type="text"
                            name="namapajak"
-                           class="form-control"
                            value="{{ $data->namapajak }}"
+                           class="form-control"
                            required>
                 </div>
 
+                {{-- PERSEN --}}
                 <div class="mb-3">
-                    <label>Persen Pajak</label>
-
+                    <label>Persen (%)</label>
                     <input type="number"
                            name="persen"
-                           class="form-control"
                            value="{{ $data->persen }}"
+                           class="form-control"
                            required>
                 </div>
 
+                {{-- STATUS --}}
                 <div class="mb-3">
                     <label>Status</label>
-
-                    <select name="status"
-                            class="form-control"
-                            required>
-
-                        <option value="aktif"
-                            {{ $data->status == 'aktif' ? 'selected' : '' }}>
+                    <select name="status" class="form-control" required>
+                        <option value="aktif" {{ $data->status == 'aktif' ? 'selected' : '' }}>
                             Aktif
                         </option>
-
-                        <option value="nonaktif"
-                            {{ $data->status == 'nonaktif' ? 'selected' : '' }}>
+                        <option value="nonaktif" {{ $data->status == 'nonaktif' ? 'selected' : '' }}>
                             Nonaktif
                         </option>
-
                     </select>
                 </div>
 
-                <button type="submit"
-                        class="btn btn-primary">
+                <button class="btn btn-primary">
                     Update
                 </button>
 
@@ -72,6 +65,7 @@
             </form>
 
         </div>
+
     </div>
 
 </div>
